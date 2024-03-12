@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Created with Vectornator (http://vectornator.io/) -->
+<svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 1024 1024" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs/>
+<g id="Layer-1" vectornator:layerName="Layer 1">
+<path d="M19.4527 354.827C19.4527 210.446 136.199 93.4015 280.213 93.4015C424.227 93.4015 540.973 210.446 540.973 354.827C540.973 499.208 424.227 616.252 280.213 616.252C136.199 616.252 19.4527 499.208 19.4527 354.827Z" fill="#325e1b" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Oval 2"/>
+</g>
+<g id="Layer-3" vectornator:layerName="Layer 3">
+<path d="M483.027 354.827C483.027 210.446 599.773 93.4015 743.787 93.4015C887.801 93.4015 1004.55 210.446 1004.55 354.827C1004.55 499.208 887.801 616.252 743.787 616.252C599.773 616.252 483.027 499.208 483.027 354.827Z" fill="#1a350d" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Oval 3"/>
+</g>
+<g id="Layer-2" vectornator:layerName="Layer 2">
+<path d="M496.116 926.883L527.515 926.883L527.515 930.599L496.116 930.599L496.116 926.883Z" fill="#5ed122" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Rectangle 1"/>
+</g>
+<g id="Layer-2-copy" vectornator:layerName="Layer 2 copy">
+<path d="M483.027 354.827C627.041 354.827 1004.55 210.884 1004.55 354.827C1004.55 389.812 995.354 440.009 963.465 498.672C864.148 681.376 636.078 930.599 527.066 930.599C383.052 930.599 339.013 354.827 483.027 354.827Z" fill="#5ed122" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Oval 4"/>
+</g>
+<g id="Layer-2-copy-copy" vectornator:layerName="Layer 2 copy copy">
+<path d="M483.027 354.827C339.013 354.827 19.4527 210.884 19.4527 354.827C19.4527 389.812 28.646 440.009 60.535 498.672C159.852 681.376 387.922 930.599 496.934 930.599C640.948 930.599 627.041 354.827 483.027 354.827Z" fill="#42841f" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Oval 4"/>
+</g>
+</svg>
