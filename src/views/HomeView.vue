@@ -21,7 +21,7 @@ export default {
     }
   },
   mounted () {
-    axios.get('http://localhost:8080/').then(
+    axios.get(import.meta.env.VITE_API_ADDR).then(
       response => (
         this.message = response.data
       )
