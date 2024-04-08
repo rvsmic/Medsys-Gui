@@ -1,5 +1,13 @@
 @tailwind base;
-
 @tailwind components;
-
 @tailwind utilities;
+
+@layer utilities {
+  .navbar-title-link {
+    @apply text-gray-900 dark:text-gray-200 hover:text-logo-medium-green dark:hover:text-logo-bright-green text-xl font-semibold;
+  }
+
+  .big-title {
+    @apply text-5xl font-bold text-gray-900 dark:text-gray-200;
+  }
+}

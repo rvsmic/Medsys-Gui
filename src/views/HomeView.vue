@@ -1,33 +1,43 @@
 <template>
-   <header>
-      <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <h1 class="text-5xl font-bold tracking-tight text-gray-900 dark:text-gray-200">Strona domowa</h1>
-      </div>
-    </header>
-    <main>
-      <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-        <p class="text-2xl font-semibold text-gray-800 dark:text-gray-300">Wiadomość z api: "{{ message }}"</p>
-      </div>
-    </main>
+  <header>
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+      <h1 class="big-title">Strona domowa</h1>
+    </div>
+  </header>
+  <main>
+    <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+      <p class="text-2xl font-semibold text-gray-800 dark:text-gray-300">
+        Wiadomość z api: "{{ message }}"
+      </p>
+    </div>
+  </main>
 </template>
 
 <script>
-import axios from 'axios'
+import homeApi from '@/api/homeApi.js'
 
 export default {
+  emits: ['error'],
   data() {
     return {
       message: ''
     }
   },
-  mounted () {
-    axios.get(import.meta.env.VITE_API_ADDR).then(
-      response => (
+  methods: {
+    async fetchMessage() {
+      try {
+        const response = await homeApi.getPong()
         this.message = response.data
-      )
-    ).catch(
-      error => console.log(error)
-    )
+      } catch (error) {
+        this.emitError(error)
+      }
+    },
+    emitError(error) {
+      this.$emit('error', error)
+    }
+  },
+  mounted() {
+    this.fetchMessage()
   }
 }
 </script>
