@@ -35,7 +35,7 @@
             Zarejestruj wizytę
           </RouterLink>
 
-          <RouterLink to="/testy" class="shortcut-button" v-if="role == 2 || role == 4">
+          <RouterLink to="/testy" @click="emitShortcut"  class="shortcut-button" v-if="role == 2 || role == 4">
             <div class="shortcut-icon">
               <svg
                 version="1.1"
@@ -64,7 +64,7 @@
             Zleć test
           </RouterLink>
 
-          <RouterLink to="/recepty" class="shortcut-button" v-if="role == 2 || role == 4">
+          <RouterLink to="/recepty" @click="emitShortcut"  class="shortcut-button" v-if="role == 2 || role == 4">
             <div class="shortcut-icon">
               <svg
                 version="1.1"
@@ -93,7 +93,7 @@
             Stwórz receptę
           </RouterLink>
 
-          <RouterLink to="/pracownicy" class="shortcut-button" v-if="role == 3 || role == 4">
+          <RouterLink to="/pracownicy" @click="emitShortcut"  class="shortcut-button" v-if="role == 3 || role == 4">
             <div class="shortcut-icon">
               <svg
                 version="1.1"
@@ -122,7 +122,7 @@
             Dodaj pracownika
           </RouterLink>
 
-          <RouterLink to="/pacjenci" class="shortcut-button" v-if="role == 3 || role == 4">
+          <RouterLink to="/pacjenci" @click="emitShortcut"  class="shortcut-button" v-if="role == 3 || role == 4">
             <div class="shortcut-icon">
               <svg
                 version="1.1"

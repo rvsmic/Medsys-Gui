@@ -105,6 +105,30 @@
               </div>
             </button>
           </div>
+          <input
+            v-if="field.type === 'pesel'"
+            type="text"
+            :name="field.field"
+            :id="field.field"
+            minlength="11"
+            maxlength="11"
+            v-model="formData[field.field]"
+            class="bg-gray-50 shadow-inner shadow-gray-400 dark:shadow-gray-950 text-gray-900 dark:text-gray-200 rounded-xl focus:border-logo-dark-green block w-full px-4 p-2.5 dark:bg-gray-800  dark:placeholder-gray-400 dark:focus:border-logo-medium-green"
+            :placeholder="field.title"
+            :disabled="type === 'view'"
+          />
+          <input
+            v-if="field.type === 'phone'"
+            type="text"
+            :name="field.field"
+            :id="field.field"
+            minlength="11"
+            maxlength="13"
+            v-model="formData[field.field]"
+            class="bg-gray-50 shadow-inner shadow-gray-400 dark:shadow-gray-950 text-gray-900 dark:text-gray-200 rounded-xl focus:border-logo-dark-green block w-full px-4 p-2.5 dark:bg-gray-800  dark:placeholder-gray-400 dark:focus:border-logo-medium-green"
+            :placeholder="field.title"
+            :disabled="type === 'view'"
+          />
         </form>
       </div>
 
@@ -223,6 +247,20 @@ export default {
         } else if (field.type === 'time' && this.formData[field.field]) {
           if (!/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(this.formData[field.field])) {
             field.error = 'Niepoprawny format czasu'
+            error = true
+          } else {
+            field.error = undefined
+          }
+        } else if (field.type === 'pesel' && this.formData[field.field]) {
+          if (!/^\d{11}$/.test(this.formData[field.field])) {
+            field.error = 'Niepoprawny format PESEL'
+            error = true
+          } else {
+            field.error = undefined
+          }
+        } else if (field.type === 'phone' && this.formData[field.field]) {
+          if (!/^\+\d{11,13}$/.test(this.formData[field.field])) {
+            field.error = 'Niepoprawny format numeru telefonu (wymagany np. +48123456789)'
             error = true
           } else {
             field.error = undefined

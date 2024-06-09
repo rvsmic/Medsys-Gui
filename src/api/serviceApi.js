@@ -36,5 +36,41 @@ export default {
       params: { id: id },
       headers: { token: token }
     })
-  }
+  },
+  getPatients(token) {
+    return apiConnection.get('/service/patients', { 
+      headers: { token: token }
+    })
+  },
+  getPatient(token, id) {
+    return apiConnection.get('/service/patients', { 
+      params: { id: id },
+      headers: { token: token }
+    })
+  },
+  postPatient(token, patient) {
+    return apiConnection.post(
+      '/service/patients',
+      patient,
+      { 
+        headers: { token: token }
+      }
+    )
+  },
+  patchPatient(token, id, patient) {
+    return apiConnection.patch(
+      '/service/patients', 
+      patient,
+      { 
+        params: { id: id },
+        headers: { token: token }
+      }
+    )
+  },
+  deletePatient(token, id) {
+    return apiConnection.delete('/service/patients', { 
+      params: { id: id },
+      headers: { token: token }
+    })
+  },
 }

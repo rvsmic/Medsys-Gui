@@ -11,8 +11,8 @@
         <span class="navbar-title-separator" v-if="role == 1 || role == 2 || role == 4">|</span>
         <RouterLink to="/recepty" class="navbar-title-link" v-if="role == 1 || role == 2 || role == 4">Recepty</RouterLink>
         <span class="navbar-title-separator" v-if="role == 1 || role == 2 || role == 4">|</span>
-        <RouterLink to="/pacjenci" class="navbar-title-link" v-if="role == 1 || role == 3 || role == 4">Pacjenci</RouterLink>
-        <span class="navbar-title-separator" v-if="role == 1 || role == 3 || role == 4">|</span>
+        <RouterLink to="/pacjenci" class="navbar-title-link">Pacjenci</RouterLink>
+        <span class="navbar-title-separator">|</span>
         <RouterLink to="/personel" class="navbar-title-link" v-if="role == 1 || role == 3 || role == 4">Personel</RouterLink>
         <span class="navbar-title-separator" v-if="role == 1 || role == 3 || role == 4">|</span>
         <RouterLink to="/moja_strona" class="navbar-title-link">Moja strona</RouterLink>
