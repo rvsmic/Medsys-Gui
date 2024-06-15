@@ -7,7 +7,47 @@
     @apply text-gray-900 dark:text-gray-200 hover:text-logo-medium-green dark:hover:text-logo-bright-green text-xl font-semibold;
   }
 
+  .navbar-title-separator {
+    @apply text-gray-400 dark:text-gray-600 text-xl font-semibold;
+  }
+
   .big-title {
-    @apply text-5xl font-bold text-gray-900 dark:text-gray-200;
+    @apply text-5xl font-semibold text-gray-900 dark:text-gray-200;
+  }
+
+  .sub-title {
+    @apply text-2xl font-semibold text-gray-800 dark:text-gray-300;
+  }
+
+  .shortcut-button {
+    @apply px-10 py-10 h-52 w-52 text-xl text-center border-solid border-2 border-gray-200 dark:border-gray-900 fill-gray-900 dark:fill-gray-200 shadow-md shadow-gray-400 dark:shadow-gray-950 font-semibold bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-200 rounded-3xl;
+  }
+
+  .shortcut-button:hover {
+    @apply fill-logo-medium-green dark:fill-logo-bright-green text-logo-medium-green dark:text-logo-bright-green shadow-inner shadow-gray-400 dark:shadow-gray-950;
+  }
+
+  .shortcut-icon {
+    @apply h-24 w-20 mx-auto;
+  }
+
+  .body-title {
+    @apply text-lg font-semibold py-4 text-gray-900 dark:text-gray-200;
+  }
+
+  .body-text {
+    @apply text-gray-800 dark:text-gray-300;
+  }
+
+  .stat-box {
+    @apply text-center mx-4 py-4 bg-gray-200 dark:bg-gray-900 shadow-inner shadow-gray-400 dark:shadow-gray-950 text-gray-900 dark:text-gray-200 rounded-3xl p-4;
+  }
+
+  .stat-digit {
+    @apply text-5xl font-bold text-logo-medium-green dark:text-logo-bright-green;
+  }
+
+  .stat-label {
+    @apply text-xl font-semibold;
   }
 }

@@ -1,9 +1,10 @@
 import { apiConnection } from './apiConnection'
 
 export default {
-  getStats(token) {
-    return apiConnection.get('/home/stats', {
+  getUser(token, id=null) {
+    return apiConnection.get('/info/user', {
+      params: { id: id },
       headers: { token: token }
     })
-  }
+  },
 }
