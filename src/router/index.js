@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import VisitsView from '../views/VisitsView.vue'
 import PatientsView from '../views/PatientsView.vue'
 import PrescriptionsView from '../views/PrescriptionsView.vue'
+import PersonnelView from '../views/PersonnelView.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -28,6 +29,12 @@ const router = createRouter({
       path: '/recepty',
       name: 'prescriptions',
       component: PrescriptionsView,
+      props: true
+    },
+    {
+      path: '/personel',
+      name: 'personnel',
+      component: PersonnelView,
       props: true
     }
     /*{

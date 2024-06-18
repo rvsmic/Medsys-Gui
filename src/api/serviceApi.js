@@ -109,4 +109,40 @@ export default {
       headers: { token: token }
     })
   },
+  getEmployees(token) {
+    return apiConnection.get('/service/personnel', { 
+      headers: { token: token }
+    })
+  },
+  getEmployee(token, id) {
+    return apiConnection.get('/service/personnel', { 
+      params: { id: id },
+      headers: { token: token }
+    })
+  },
+  postEmployee(token, personnel) {
+    return apiConnection.post(
+      '/service/personnel',
+      personnel,
+      { 
+        headers: { token: token }
+      }
+    )
+  },
+  patchEmployee(token, id, personnel) {
+    return apiConnection.patch(
+      '/service/personnel', 
+      personnel,
+      { 
+        params: { id: id },
+        headers: { token: token }
+      }
+    )
+  },
+  deleteEmployee(token, id) {
+    return apiConnection.delete('/service/personnel', { 
+      params: { id: id },
+      headers: { token: token }
+    })
+  },
 }
