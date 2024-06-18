@@ -4,6 +4,7 @@ import VisitsView from '../views/VisitsView.vue'
 import PatientsView from '../views/PatientsView.vue'
 import PrescriptionsView from '../views/PrescriptionsView.vue'
 import PersonnelView from '../views/PersonnelView.vue'
+import LabTestsView from '../views/LabTestsView.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -35,6 +36,12 @@ const router = createRouter({
       path: '/personel',
       name: 'personnel',
       component: PersonnelView,
+      props: true
+    },
+    {
+      path: '/testy',
+      name: 'lab-tests',
+      component: LabTestsView,
       props: true
     }
     /*{

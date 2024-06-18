@@ -145,4 +145,40 @@ export default {
       headers: { token: token }
     })
   },
+  getTests(token) {
+    return apiConnection.get('/service/tests', { 
+      headers: { token: token }
+    })
+  },
+  getTest(token, id) {
+    return apiConnection.get('/service/tests', { 
+      params: { id: id },
+      headers: { token: token }
+    })
+  },
+  postTest(token, test) {
+    return apiConnection.post(
+      '/service/tests',
+      test,
+      { 
+        headers: { token: token }
+      }
+    )
+  },
+  patchTest(token, id, test) {
+    return apiConnection.patch(
+      '/service/tests', 
+      test,
+      { 
+        params: { id: id },
+        headers: { token: token }
+      }
+    )
+  },
+  deleteTest(token, id) {
+    return apiConnection.delete('/service/tests', { 
+      params: { id: id },
+      headers: { token: token }
+    })
+  }
 }
