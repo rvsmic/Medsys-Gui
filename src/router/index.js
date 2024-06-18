@@ -50,7 +50,7 @@ const router = createRouter({
       name: 'user',
       component: UserView,
       props: true
-    },
+    }
     /*{
       path: '/about',
       name: 'about',
