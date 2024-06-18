@@ -3,12 +3,9 @@ import HomeView from '../views/HomeView.vue'
 import VisitsView from '../views/VisitsView.vue'
 import PatientsView from '../views/PatientsView.vue'
 import PrescriptionsView from '../views/PrescriptionsView.vue'
-<<<<<<< HEAD
 import PersonnelView from '../views/PersonnelView.vue'
 import LabTestsView from '../views/LabTestsView.vue'
-=======
 import UserView from '../views/UserView.vue'
->>>>>>> e0dcc79 (Initial version of user page)
 
 const router = createRouter({
   history: createWebHashHistory(),
