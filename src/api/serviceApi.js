@@ -73,4 +73,40 @@ export default {
       headers: { token: token }
     })
   },
+  getPrescriptions(token) {
+    return apiConnection.get('/service/prescriptions', { 
+      headers: { token: token }
+    })
+  },
+  getPrescription(token, id) {
+    return apiConnection.get('/service/prescriptions', { 
+      params: { id: id },
+      headers: { token: token }
+    })
+  },
+  postPrescription(token, prescription) {
+    return apiConnection.post(
+      '/service/prescriptions',
+      prescription,
+      { 
+        headers: { token: token }
+      }
+    )
+  },
+  patchPrescription(token, id, prescription) {
+    return apiConnection.patch(
+      '/service/prescriptions', 
+      prescription,
+      { 
+        params: { id: id },
+        headers: { token: token }
+      }
+    )
+  },
+  deletePrescription(token, id) {
+    return apiConnection.delete('/service/prescriptions', { 
+      params: { id: id },
+      headers: { token: token }
+    })
+  },
 }
