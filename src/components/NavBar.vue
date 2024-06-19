@@ -15,7 +15,7 @@
         <span class="navbar-title-separator">|</span>
         <RouterLink to="/personel" class="navbar-title-link" v-if="role == 1 || role == 3 || role == 4">Personel</RouterLink>
         <span class="navbar-title-separator" v-if="role == 1 || role == 3 || role == 4">|</span>
-        <RouterLink to="/moja_strona" class="navbar-title-link">Moja strona</RouterLink>
+        <RouterLink to="/moja-strona" class="navbar-title-link">Moja strona</RouterLink>
         <button
           @click="logout"
           class="text-gray-900 hover:text-gray-200 dark:text-gray-300 dark:hover:text-gray-900 bg-gray-100 border-solid border-1 border-gray-200 dark:border-gray-900 shadow-sm shadow-gray-400 dark:shadow-gray-950 hover:shadow-inner hover:shadow-gray-800 dark:hover:shadow-gray-950 hover:bg-logo-medium-green font-semibold rounded-lg px-5 py-2.5 text-center text-xl dark:bg-gray-800 dark:hover:bg-logo-bright-green"

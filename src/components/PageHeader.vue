@@ -5,7 +5,7 @@
             <div class="flex ml-auto">
                 <template v-for="action in actions" :key="action.label">
                     <div v-if="action.allowedRoles.includes($store.state.role)">
-                        <SmallButton :label="action.label" @click="$emit(action.action)" />
+                        <SmallButton :label="action.label" :type="action.type" @click="$emit(action.action)" />
                         <div class="pl-2" />
                     </div>
                 </template>

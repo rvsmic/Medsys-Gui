@@ -5,6 +5,9 @@
         <h2 class="text-2xl font-semibold text-center text-gray-800 dark:text-gray-200">
           {{ title }}
         </h2>
+        <h3 v-if="subtitle" class="block mb-2 text-sm text-center font-medium text-gray-600 dark:text-gray-400">
+          {{ subtitle }}
+        </h3>
         <form class="mt-2" v-for="field in formFields" :key="field.field">
           <label
             :for="field.field"
@@ -139,6 +142,17 @@
             :placeholder="field.title"
             :disabled="type === 'view'"
           />
+          <input
+            v-if="field.type === 'password'"
+            type="password"
+            :name="field.field"
+            :id="field.field"
+            minlength="8"
+            v-model="formData[field.field]"
+            class="bg-gray-50 shadow-inner shadow-gray-400 dark:shadow-gray-950 text-gray-900 dark:text-gray-200 rounded-xl focus:border-logo-dark-green block w-full px-4 p-2.5 dark:bg-gray-800  dark:placeholder-gray-400 dark:focus:border-logo-medium-green"
+            :placeholder="field.title"
+            :disabled="type === 'view'"
+          />
         </form>
       </div>
 
@@ -178,6 +192,10 @@ export default {
     title: {
       type: String,
       required: true
+    },
+    subtitle: {
+      type: String,
+      required: false
     },
     data: {
       type: Object,
@@ -271,6 +289,17 @@ export default {
         } else if (field.type === 'phone' && this.formData[field.field]) {
           if (!/^\+\d{11,13}$/.test(this.formData[field.field])) {
             field.error = 'Niepoprawny format numeru telefonu (wymagany np. +48123456789)'
+            error = true
+          } else {
+            field.error = undefined
+          }
+        } else if (field.type === 'password' && this.formData[field.field]) {
+          if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/.test(this.formData[field.field])) {
+            field.error = 'Hasło nie spełnia wymagań'
+            error = true
+          } else if (field.bind && this.formData[field.bind] != this.formData[field.field]) {
+            console.log(this.formData[field.bind], this.formData[field.field], field.bind)
+            field.error = 'Hasła nie są takie same'
             error = true
           } else {
             field.error = undefined
