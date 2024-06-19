@@ -151,7 +151,7 @@
             Dodaj pacjenta
           </RouterLink>
 
-          <RouterLink to="/bledy" class="shortcut-button">
+          <button @click="showReportErrorModal = true" class="shortcut-button">
             <div class="shortcut-icon">
               <svg
                 version="1.1"
@@ -178,7 +178,7 @@
               </svg>
             </div>
             Zgłoś błąd
-          </RouterLink>
+          </button>
         </div>
       </div>
 
@@ -201,19 +201,40 @@
       </div>
     </div>
   </div>
+  <FormModal 
+    v-if="showReportErrorModal"
+    type="add"
+    title="Zgłoś błąd"
+    :data="formData"
+    :fields="formFields"
+    @submit="submitForm"
+    @cancel="cancelForm"
+  />
+  <MessageModal
+    v-if="showInfoModal"
+    type="info"
+    title="SUKCES"
+    subtitle="Błąd został zgłoszony"
+    @submit="showInfoModal = false"
+  />
 </template>
 
 <script>
 import homeApi from '@/api/homeApi.js'
 import userApi from '@/api/userApi.js'
+import errorApi from '@/api/errorApi'
 import LoaderCover from '@/components/LoaderCover.vue'
 import StatBox from '@/components/StatBox.vue'
+import FormModal from '@/components/FormModal.vue'
+import MessageModal from '@/components/MessageModal.vue'
 
 export default {
   emits: ['error', 'enableShortcut'],
   components: {
     LoaderCover,
-    StatBox
+    StatBox,
+    FormModal,
+    MessageModal
   },
   props: {
     role: {
@@ -230,7 +251,18 @@ export default {
       name: undefined,
       dayStats: [],
       weekStats: [],
-      loading: true
+      loading: true,
+      formData: {},
+      showReportErrorModal: false,
+      showInfoModal: false,
+    }
+  },
+  computed: {
+    formFields() {
+      return [
+        { field: 'title', title: 'Tytuł zgłoszenia' },
+        { field: 'description', title: 'Opis błedu', type: 'longtext' }
+      ]
     }
   },
   methods: {
@@ -258,6 +290,27 @@ export default {
         this.loading = false
         this.emitError(error)
       }
+    },
+    async reportError(error) {
+      this.loading = true
+      try {
+        const token = this.$store.state.token
+        await errorApi.postError(token, error)
+        this.loading = false
+        this.showInfoModal = true
+      } catch (error) {
+        this.loading = false
+        this.emitError(error)
+      }
+    },
+    submitForm(data) {
+      this.reportError(data)
+      this.formData = {}
+      this.showReportErrorModal = false
+    },
+    cancelForm() {
+      this.formData = {}
+      this.showReportErrorModal = false
     },
     emitShortcut() {
       this.$emit('enableShortcut', true)
