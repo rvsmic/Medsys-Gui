@@ -79,6 +79,7 @@ export default {
     formFields() {
       return [
         { field: 'name', title: 'Imie i nazwisko' },
+        { field: 'username', title: 'Login' },
         { field: 'date_of_birth', title: 'Data urodzenia', type: 'date' },
         { field: 'pesel', title: 'Pesel', type: 'pesel', optional: true },
         {
@@ -91,10 +92,10 @@ export default {
             { value: 'O', label: 'Inne' }
           ]
         },
-        { field: 'phone_number', title: 'Numer telefonu', type: 'phone', optional: true },
-        { field: 'address', title: 'Adres zamieszkania', optional: true },
-        { field: 'specialty', title: 'Specjalizacja', optional: true },
-        { field: 'profession', title: 'Zawód', optional: true }
+        { field: 'phone_number', title: 'Numer telefonu', type: 'phone' },
+        { field: 'address', title: 'Adres zamieszkania' },
+        { field: 'profession', title: 'Zawód' },
+        { field: 'specialty', title: 'Specjalizacja', optional: true }
       ]
     },
     headerActions() {

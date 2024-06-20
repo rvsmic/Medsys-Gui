@@ -93,7 +93,7 @@
             Stwórz receptę
           </RouterLink>
 
-          <RouterLink to="/pracownicy" @click="emitShortcut"  class="shortcut-button" v-if="role == 3 || role == 4">
+          <RouterLink to="/personel" @click="emitShortcut"  class="shortcut-button" v-if="role == 3 || role == 4">
             <div class="shortcut-icon">
               <svg
                 version="1.1"
