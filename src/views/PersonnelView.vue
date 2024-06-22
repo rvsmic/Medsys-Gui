@@ -94,7 +94,17 @@ export default {
         },
         { field: 'phone_number', title: 'Numer telefonu', type: 'phone' },
         { field: 'address', title: 'Adres zamieszkania' },
-        { field: 'profession', title: 'Zawód' },
+        {
+          field: 'profession',
+          title: 'Zawód',
+          type: 'select',
+          options: [
+            { value: 'Personel', label: 'Personel' },
+            { value: 'Lekarz', label: 'Lekarz' },
+            { value: 'Admin', label: 'Admin' },
+            { value: 'Stażysta', label: 'Stażysta' }
+          ]
+        },
         { field: 'specialty', title: 'Specjalizacja', optional: true }
       ]
     },
@@ -162,11 +172,12 @@ export default {
       this.loading = true
       try {
         const token = this.$store.state.token
-        await serviceApi.postEmployee(token, employee)
+        const response = await serviceApi.postEmployee(token, employee)
+        const newPassword = response.data.data
         this.reloadData()
         this.loading = false
         this.infoModalTitle = 'Sukces'
-        this.infoModalMessage = 'Nowy pracownik został dodany'
+        this.infoModalMessage = 'Nowy pracownik został dodany z jednorazowym hasłem: ' + newPassword
         this.infoModalType = 'info'
         this.showInfoModal = true
       } catch (error) {
@@ -220,9 +231,11 @@ export default {
     },
     submitDelete() {
       this.deleteEmployee(this.formData.id)
+      this.formData = {}
       this.showDeleteModal = false
     },
     cancelDelete() {
+      this.formData = {}
       this.showDeleteModal = false
     },
     submitForm(data) {
