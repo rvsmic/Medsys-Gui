@@ -91,8 +91,8 @@ export default {
             { value: 'O', label: 'Inne' }
           ]
         },
-        { field: 'phone_number', title: 'Numer telefonu', type: 'phone', optional: true },
-        { field: 'address', title: 'Adres zamieszkania', optional: true },
+        { field: 'phone_number', title: 'Numer telefonu', type: 'phone' },
+        { field: 'address', title: 'Adres zamieszkania' },
         { field: 'date_of_death', title: 'Data śmierci', type: 'date', optional: true },
         { field: 'blood_type',
           title: 'Grupa krwi',
@@ -233,9 +233,11 @@ export default {
     },
     submitDelete() {
       this.deletePatient(this.formData.id)
+      this.formData = {}
       this.showDeleteModal = false
     },
     cancelDelete() {
+      this.formData = {}
       this.showDeleteModal = false
     },
     submitForm(data) {
