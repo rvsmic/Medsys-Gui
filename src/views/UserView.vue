@@ -61,7 +61,7 @@ export default {
         { field: 'login', title: 'Login' },
         { field: 'profession', title: 'Zawód' },
         { field: 'specialty', title: 'Specjalizacja'},
-        { field: 'date_of_birth', title: 'Data urodzenia'},
+        { field: 'dob', title: 'Data urodzenia'},
         { field: 'pesel', title: 'Pesel', type: 'pesel'},
         { field: 'gender', title: 'Płeć' },
         { field: 'phone_number', title: 'Numer telefonu'},

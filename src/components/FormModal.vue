@@ -324,6 +324,16 @@ export default {
             this.formData[field.field] = ' '
           }
           field.type = 'text'
+        } else if (field.type === 'pesel') {
+          if (!this.formData[field.field]) {
+            this.formData[field.field] = ' '
+          }
+          field.type = 'text'
+        } else if (field.type === 'phone') {
+          if (!this.formData[field.field]) {
+            this.formData[field.field] = ' '
+          }
+          field.type = 'text'
         } else if (field.type === 'text' || !field.type) {
           if (!this.formData[field.field]) {
             this.formData[field.field] = ' '
