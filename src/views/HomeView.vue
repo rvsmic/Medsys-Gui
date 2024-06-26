@@ -229,7 +229,7 @@ import FormModal from '@/components/FormModal.vue'
 import MessageModal from '@/components/MessageModal.vue'
 
 export default {
-  emits: ['error', 'enableShortcut'],
+  emits: ['error', 'enableShortcut', 'logout'],
   components: {
     LoaderCover,
     StatBox,
@@ -275,6 +275,10 @@ export default {
         this.loading = false
       } catch (error) {
         this.loading = false
+        if (error.response && error.response.status === 401) {
+          this.emitLogout()
+          return
+        }
         this.emitError(error)
       }
     },
@@ -288,6 +292,10 @@ export default {
         this.loading = false
       } catch (error) {
         this.loading = false
+        if (error.response && error.response.status === 401) {
+          this.emitLogout()
+          return
+        }
         this.emitError(error)
       }
     },
@@ -300,6 +308,10 @@ export default {
         this.showInfoModal = true
       } catch (error) {
         this.loading = false
+        if (error.response && error.response.status === 401) {
+          this.emitLogout()
+          return
+        }
         this.emitError(error)
       }
     },
@@ -317,6 +329,9 @@ export default {
     },
     emitError(error) {
       this.$emit('error', error)
+    },
+    emitLogout() {
+      this.$emit('logout')
     }
   },
   mounted() {
