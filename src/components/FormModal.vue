@@ -22,7 +22,7 @@
             v-model="formData[field.field]"
             class="bg-gray-50 shadow-inner shadow-gray-400 dark:shadow-gray-950 text-gray-900 dark:text-gray-200 rounded-xl focus:border-logo-dark-green block w-full px-4 p-2.5 dark:bg-gray-800  dark:placeholder-gray-400 dark:focus:border-logo-medium-green"
             :placeholder="field.title"
-            :disabled="type === 'view'"
+            :disabled="type === 'view' || field.immutable"
           />
           <textarea
             v-if="field.type === 'longtext'"
@@ -32,7 +32,7 @@
             v-model="formData[field.field]"
             class="bg-gray-50 shadow-inner shadow-gray-400 dark:shadow-gray-950 text-gray-900 dark:text-gray-200 rounded-xl focus:border-logo-dark-green block w-full px-4 p-2.5 dark:bg-gray-800  dark:placeholder-gray-400 dark:focus:border-logo-medium-green"
             :placeholder="field.title"
-            :disabled="type === 'view'"
+            :disabled="type === 'view' || field.immutable"
           />
           <input
             v-if="field.type === 'number'"
@@ -41,7 +41,7 @@
             :id="field.field"
             v-model="formData[field.field]"
             class="bg-gray-50 shadow-inner shadow-gray-400 dark:shadow-gray-950 text-gray-900 dark:text-gray-200 rounded-xl focus:border-logo-dark-green block w-full px-4 p-2.5 dark:bg-gray-800  dark:placeholder-gray-400 dark:focus:border-logo-medium-green"
-            :disabled="type === 'view'"
+            :disabled="type === 'view' || field.immutable"
           />
           <select
             v-if="field.type === 'select'"
@@ -49,7 +49,7 @@
             :id="field.field"
             v-model="formData[field.field]"
             class="select-option"
-            :disabled="type === 'view'"
+            :disabled="type === 'view' || field.immutable"
           >
             <option v-for="option in field.options" :value="option.value" :key="option.value">{{ option.label }}</option>
           </select>
@@ -60,7 +60,7 @@
               :id="field.field"
               v-model="formData[field.field]"
               class="bg-gray-50 dark:bg-gray-800  dark:placeholder-gray-400"
-              :disabled="type === 'view'"
+              :disabled="type === 'view' || field.immutable"
             />
             <button v-if="formData[field.field] && type !== 'view'" @click="formData[field.field]=undefined" class="float-end mt-1">
               <div class="bg-gray-200 dark:bg-gray-600 shadow-sm hover:shadow-inner shadow-gray-400 dark:shadow-gray-950 fill-gray-900 dark:fill-gray-200 hover:fill-gray-200 hover:dark:fill-gray-200 hover:bg-logo-medium-green hover:dark:bg-logo-medium-green rounded-full p-1.5">
@@ -93,7 +93,7 @@
               v-model="formData[field.field]"
               class="bg-gray-50 dark:bg-gray-800  dark:placeholder-gray-400"
               :placeholder="field.title"
-              :disabled="type === 'view'"
+              :disabled="type === 'view' || field.immutable"
             />
             <button v-if="formData[field.field] && type !== 'view'" @click="formData[field.field]=undefined" class="float-end mt-1">
               <div class="bg-gray-200 dark:bg-gray-600 shadow-sm hover:shadow-inner shadow-gray-400 dark:shadow-gray-950 fill-gray-900 dark:fill-gray-200 hover:fill-gray-200 hover:dark:fill-gray-200 hover:bg-logo-medium-green hover:dark:bg-logo-medium-green rounded-full p-1.5">
@@ -128,7 +128,7 @@
             v-model="formData[field.field]"
             class="bg-gray-50 shadow-inner shadow-gray-400 dark:shadow-gray-950 text-gray-900 dark:text-gray-200 rounded-xl focus:border-logo-dark-green block w-full px-4 p-2.5 dark:bg-gray-800  dark:placeholder-gray-400 dark:focus:border-logo-medium-green"
             :placeholder="field.title"
-            :disabled="type === 'view'"
+            :disabled="type === 'view' || field.immutable"
           />
           <input
             v-if="field.type === 'phone'"
@@ -140,7 +140,7 @@
             v-model="formData[field.field]"
             class="bg-gray-50 shadow-inner shadow-gray-400 dark:shadow-gray-950 text-gray-900 dark:text-gray-200 rounded-xl focus:border-logo-dark-green block w-full px-4 p-2.5 dark:bg-gray-800  dark:placeholder-gray-400 dark:focus:border-logo-medium-green"
             :placeholder="field.title"
-            :disabled="type === 'view'"
+            :disabled="type === 'view' || field.immutable"
           />
           <input
             v-if="field.type === 'password'"
@@ -151,7 +151,7 @@
             v-model="formData[field.field]"
             class="bg-gray-50 shadow-inner shadow-gray-400 dark:shadow-gray-950 text-gray-900 dark:text-gray-200 rounded-xl focus:border-logo-dark-green block w-full px-4 p-2.5 dark:bg-gray-800  dark:placeholder-gray-400 dark:focus:border-logo-medium-green"
             :placeholder="field.title"
-            :disabled="type === 'view'"
+            :disabled="type === 'view' || field.immutable"
           />
         </form>
       </div>
@@ -246,7 +246,7 @@ export default {
       this.$emit('submit', this.formData)
     },
     validateRequiredFields() {
-      return !this.fields.filter((field) => !field.optional).every((field) => this.formData[field.field])
+      return !this.fields.filter((field) => !field.optional).every((field) => this.formData[field.field] || this.formData[field.field] === false)
     },
     validateFieldTypes() {
       let error = false
@@ -338,6 +338,18 @@ export default {
           if (!this.formData[field.field]) {
             this.formData[field.field] = ' '
           }
+        }
+      })
+    } else if (this.type === 'edit') {
+      this.formFields.forEach((field) => {
+        if (field.type === 'date' && field.immutable ) {
+          field.type = 'text'
+        } else if (field.type === 'time' && field.immutable ) {
+          field.type = 'text'
+        } else if (field.type === 'pesel' && field.immutable ) {
+          field.type = 'text'
+        } else if (field.type === 'phone' && field.immutable ) {
+          field.type = 'text'
         }
       })
     }

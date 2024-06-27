@@ -10,6 +10,10 @@
       <template #id="data">
         <strong>{{ data.value.id }}</strong>
       </template>
+      <template #resolved="data">
+        <div v-if="data.value.resolved" class="font-semibold text-gray-200 dark:text-gray-900 bg-logo-medium-green dark:bg-logo-bright-green rounded-full shadow-inner shadow-gray-700 dark:shadow-gray-950 w-16 py-1 text-center">TAK</div>
+        <div v-else class="font-semibold text-gray-200 dark:text-gray-900 bg-red-400 dark:bg-red-500 rounded-full shadow-inner shadow-gray-700 dark:shadow-gray-950 w-16 py-1 text-center">NIE</div>
+      </template>
       <template #actions="data">
         <div class="flex gap-2 justify-center">
           <RowButton v-if="canView" type="view" @click="viewRow(data.value)" />
@@ -183,6 +187,22 @@ export default {
     appearance: none;
     box-shadow: inset 0 2px 3px rgba(90, 90, 90, 0.5);
   }
+
+  & .bh-form-control {
+    color: #000;
+    border-width: 0;
+    width: 55px;
+    height: 30px;
+    background: #e5e7eb;
+    background-size: 10px;
+    background-position: 85% 60%;
+    background-repeat: no-repeat;
+    background-color: #e5e7eb;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    box-shadow: inset 0 2px 3px rgba(90, 90, 90, 0.5);
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -281,6 +301,22 @@ export default {
       height: 30px;
       background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%235ed122'><polygon points='0,0 100,0 50,50'/></svg>")
         no-repeat;
+      background-size: 10px;
+      background-position: 80% center;
+      background-repeat: no-repeat;
+      background-color: #111827;
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      appearance: none;
+      box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    & .bh-form-control {
+      color: #fff;
+      border-width: 0;
+      width: 55px;
+      height: 30px;
+      background: #111827;
       background-size: 10px;
       background-position: 80% center;
       background-repeat: no-repeat;

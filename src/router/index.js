@@ -6,6 +6,7 @@ import PrescriptionsView from '../views/PrescriptionsView.vue'
 import PersonnelView from '../views/PersonnelView.vue'
 import LabTestsView from '../views/LabTestsView.vue'
 import UserView from '../views/UserView.vue'
+import ErrorsView from '@/views/ErrorsView.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -50,15 +51,13 @@ const router = createRouter({
       name: 'user',
       component: UserView,
       props: true
+    },
+    {
+      path: '/bledy',
+      name: 'errors',
+      component: ErrorsView,
+      props: true
     }
-    /*{
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    }*/
   ]
 })
 
