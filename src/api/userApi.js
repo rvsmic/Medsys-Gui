@@ -7,4 +7,13 @@ export default {
       headers: { token: token }
     })
   },
+  changePassword(token, data) {
+    return apiConnection.patch(
+      '/info/password',
+      data, 
+      {
+        headers: { token: token }
+      }
+    )
+  }
 }

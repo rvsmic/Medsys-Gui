@@ -1,13 +1,13 @@
 <template>
   <LoaderCover v-if="loading" />
-  <PageHeader title="Wizyty" :actions="headerActions" @addNewVisit="addNewVisit" />
+  <PageHeader title="Recepty" :actions="headerActions" @addNewPrescription="addNewPrescription" />
   <main>
     <DataTable
-      :data="visits"
+      :data="prescriptions"
       :columns="columns"
       :canView="true"
-      :canEdit="role == 2 || role == 3 || role == 4"
-      :canDelete="role == 3 || role == 4"
+      :canEdit="role == 2 || role == 4"
+      :canDelete="role == 4"
       @view="viewRow"
       @edit="editRow"
       @delete="deleteRow"
@@ -26,7 +26,7 @@
     v-if="showDeleteModal"
     type="delete"
     title="UWAGA"
-    :subtitle="`Chcesz usunąć wizytę ${formData.id}?`"
+    :subtitle="`Chcesz usunąć receptę ${formData.id}?`"
     @submit="submitDelete"
     @cancel="cancelDelete"
   />
@@ -71,18 +71,13 @@ export default {
     columns() {
       return [
         { field: 'id', title: 'ID', type: 'number', isUnique: true, filter: false },
-        { field: 'nazwa', title: 'Nazwa' },
-        { field: 'pacjent', title: 'Pacjent' },
-        { field: 'lekarz', title: 'Lekarz' },
-        { field: 'godzina', title: 'Godzina' },
-        { field: 'data', title: 'Data', type: 'date' },
-        { field: 'diagnoza', title: 'Diagnoza' },
-        { field: 'status', title: 'Status' }
+        { field: 'patient', title: 'Pacjent' },
+        { field: 'doctor', title: 'Doktor' },
+        { field: 'prescription_date', title: 'Data wypisania', type:'date' }
       ]
     },
     formFields() {
       return [
-        { field: 'appointment_name', title: 'Nazwa', optional: true },
         {
           field: 'patient_id',
           title: 'Pacjent',
@@ -95,54 +90,32 @@ export default {
           type: 'select',
           options: this.selDoctors
         },
-        { field: 'appointment_time', title: 'Godzina', type: 'time' },
-        { field: 'appointment_date', title: 'Data', type: 'date' },
-        {
-          field: 'appointment_status',
-          title: 'Status',
-          type: 'select',
-          options: [
-            { value: 'Anulowana', label: 'Anulowana' },
-            { value: 'Oczekująca', label: 'Oczekująca' },
-            { value: 'Zakończona', label: 'Zakończona' }
-          ]
-        },
-        { field: 'diagnosis', title: 'Diagnoza', optional: true },
-        {
-          field: 'prescription_id',
-          title: 'Recepta',
-          type: 'select',
-          options: this.selPrescriptions,
-          optional: true
-        },
-        { field: 'follow_up_date', title: 'Data następnego badania', type: 'date', optional: true },
+        { field: 'prescription_date', title: 'Data wypisania', type: 'date' },
+        { field: 'prescription_details', title: 'Treść recepty', type: 'longtext' },
       ]
     },
     headerActions() {
       return [
         {
-          label: 'Dodaj wizytę',
-          action: 'addNewVisit',
-          allowedRoles: [2, 3, 4]
+          label: 'Dodaj receptę',
+          action: 'addNewPrescription',
+          allowedRoles: [2, 4]
         }
       ]
     },
     formModalTitle() {
       if (this.formModalType === 'add') {
-        return 'Dodaj wizytę'
+        return 'Dodaj receptę'
       } else if (this.formModalType === 'edit') {
-        return 'Edytuj wizytę'
+        return 'Edytuj receptę'
       } else {
-        return 'Zobacz wizytę'
+        return 'Zobacz receptę'
       }
     },
   },
   data() {
     return {
-      visits: [],
-      selDoctors: [],
-      selPatients: [],
-      selPrescriptions: [],
+      prescriptions: [],
       loading: false,
       showFormModal: false,
       showDeleteModal: false,
@@ -150,6 +123,8 @@ export default {
       formModalType: undefined,
       formData: {},
       infoModalMessage: undefined,
+      selDoctors: [],
+      selPatients: []
     }
   },
   methods: {
@@ -161,8 +136,8 @@ export default {
       this.loading = true
       try {
         const token = this.$store.state.token
-        const response = await serviceApi.getVisits(token)
-        this.visits = response.data.data
+        const response = await serviceApi.getPrescription(token)
+        this.prescriptions = response.data.data
         this.loading = false
       } catch (error) {
         this.loading = false
@@ -181,8 +156,6 @@ export default {
         this.selDoctors = doctorsResponse.data.data
         const patientsResponse = await metaApi.getSelPatients(token)
         this.selPatients = patientsResponse.data.data
-        const prescriptionsResponse = await metaApi.getSelPrescriptions(token)
-        this.selPrescriptions = prescriptionsResponse.data.data
         this.loading = false
       } catch (error) {
         this.loading = false
@@ -193,11 +166,11 @@ export default {
         this.emitError(error)
       }
     },
-    async getVisit(id) {
+    async getPrescription(id) {
       this.loading = true
       try {
         const token = this.$store.state.token
-        const response = await serviceApi.getVisit(token, id)
+        const response = await serviceApi.getPrescription(token, id)
         this.formData = response.data.data
         this.loading = false
         this.showFormModal = true
@@ -210,15 +183,15 @@ export default {
         this.emitError(error)
       }
     },
-    async addVisit(visit) {
+    async addPrescription(prescription) {
       this.loading = true
       try {
         const token = this.$store.state.token
-        await serviceApi.postVisit(token, visit)
+        await serviceApi.postPrescription(token, prescription)
         this.reloadData()
         this.loading = false
         this.infoModalTitle = 'Sukces'
-        this.infoModalMessage = 'Nowa wizyta została dodana'
+        this.infoModalMessage = 'Nowa recepta została dodana'
         this.infoModalType = 'info'
         this.showInfoModal = true
       } catch (error) {
@@ -230,14 +203,14 @@ export default {
         this.emitError(error)
       }
     },
-    async editVisit(id, visit) {
+    async editPrescription(id, prescription) {
       this.loading = true
       try {
         const token = this.$store.state.token
-        await serviceApi.patchVisit(token, id, visit)
+        await serviceApi.patchPrescription(token, id, prescription)
         this.reloadData()
         this.loading = false
-        this.infoModalMessage = `Wizyta o id ${id} została edytowana`
+        this.infoModalMessage = `Recepta o id ${id} została edytowana`
         this.showInfoModal = true
       } catch (error) {
         this.loading = false
@@ -248,14 +221,14 @@ export default {
         this.emitError(error)
       }
     },
-    async deleteVisit(id) {
+    async deletePrescription(id) {
       this.loading = true
       try {
         const token = this.$store.state.token
-        await serviceApi.deleteVisit(token, id)
+        await serviceApi.deletePrescription(token, id)
         this.reloadData()
         this.loading = false
-        this.infoModalMessage = `Wizyta o id ${id} została usunięta`
+        this.infoModalMessage = `Recepta o id ${id} została usunięta`
         this.showInfoModal = true
       } catch (error) {
         this.loading = false
@@ -266,24 +239,24 @@ export default {
         this.emitError(error)
       }
     },
-    addNewVisit() {
+    addNewPrescription() {
       this.showFormModal = true
       this.formModalType = 'add'
     },
     viewRow(row) {
       this.formModalType = 'view'
-      this.getVisit(row.id)
+      this.getPrescription(row.id)
     },
     editRow(row) {
       this.formModalType = 'edit'
-      this.getVisit(row.id)
+      this.getPrescription(row.id)
     },
     deleteRow(row) {
       this.formData = row
       this.showDeleteModal = true
     },
     submitDelete() {
-      this.deleteVisit(this.formData.id)
+      this.deletePrescription(this.formData.id)
       this.showDeleteModal = false
     },
     cancelDelete() {
@@ -291,9 +264,9 @@ export default {
     },
     submitForm(data) {
       if (this.formModalType === 'add') {
-        this.addVisit(data)
+        this.addPrescription(data)
       } else if (this.formModalType === 'edit') {
-        this.editVisit(data.id, data)
+        this.editPrescription(data.id, data)
       }
       this.formData = {}
       this.showFormModal = false
@@ -315,7 +288,7 @@ export default {
   mounted() {
     this.reloadData()
     if (this.shortcut) {
-      this.addNewVisit()
+      this.addNewPrescription()
       this.emitShortcut()
     }
   }

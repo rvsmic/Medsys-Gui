@@ -1,12 +1,12 @@
 <template>
   <LoaderCover v-if="loading" />
-  <PageHeader title="Wizyty" :actions="headerActions" @addNewVisit="addNewVisit" />
+  <PageHeader title="Pacjenci" :actions="headerActions" @addNewPatient="addNewPatient" />
   <main>
     <DataTable
-      :data="visits"
+      :data="patients"
       :columns="columns"
       :canView="true"
-      :canEdit="role == 2 || role == 3 || role == 4"
+      :canEdit="role == 3 || role == 4"
       :canDelete="role == 3 || role == 4"
       @view="viewRow"
       @edit="editRow"
@@ -26,7 +26,7 @@
     v-if="showDeleteModal"
     type="delete"
     title="UWAGA"
-    :subtitle="`Chcesz usunąć wizytę ${formData.id}?`"
+    :subtitle="`Chcesz usunąć pacjenta ${formData.id}?`"
     @submit="submitDelete"
     @cancel="cancelDelete"
   />
@@ -41,7 +41,6 @@
 
 <script>
 import serviceApi from '@/api/serviceApi.js'
-import metaApi from '@/api/metaApi'
 import LoaderCover from '@/components/LoaderCover.vue'
 import PageHeader from '@/components/PageHeader.vue'
 import DataTable from '@/components/DataTable.vue'
@@ -71,78 +70,69 @@ export default {
     columns() {
       return [
         { field: 'id', title: 'ID', type: 'number', isUnique: true, filter: false },
-        { field: 'nazwa', title: 'Nazwa' },
-        { field: 'pacjent', title: 'Pacjent' },
-        { field: 'lekarz', title: 'Lekarz' },
-        { field: 'godzina', title: 'Godzina' },
-        { field: 'data', title: 'Data', type: 'date' },
-        { field: 'diagnoza', title: 'Diagnoza' },
-        { field: 'status', title: 'Status' }
+        { field: 'name', title: 'Imie i nazwisko' },
+        { field: 'date_of_birth', title: 'Data urodzenia', type: 'date' },
+        { field: 'gender', title: 'Płeć' },
+        { field: 'blood_type', title: 'Grupa krwi' }
       ]
     },
     formFields() {
       return [
-        { field: 'appointment_name', title: 'Nazwa', optional: true },
+        { field: 'name', title: 'Imie i nazwisko' },
+        { field: 'date_of_birth', title: 'Data urodzenia', type: 'date' },
+        { field: 'pesel', title: 'Pesel', type: 'pesel', optional: true },
         {
-          field: 'patient_id',
-          title: 'Pacjent',
-          type: 'select',
-          options: this.selPatients
-        },
-        {
-          field: 'doctor_id',
-          title: 'Lekarz',
-          type: 'select',
-          options: this.selDoctors
-        },
-        { field: 'appointment_time', title: 'Godzina', type: 'time' },
-        { field: 'appointment_date', title: 'Data', type: 'date' },
-        {
-          field: 'appointment_status',
-          title: 'Status',
+          field: 'gender',
+          title: 'Płeć',
           type: 'select',
           options: [
-            { value: 'Anulowana', label: 'Anulowana' },
-            { value: 'Oczekująca', label: 'Oczekująca' },
-            { value: 'Zakończona', label: 'Zakończona' }
+            { value: 'M', label: 'Mężczyzna' },
+            { value: 'F', label: 'Kobieta' },
+            { value: 'O', label: 'Inne' }
           ]
         },
-        { field: 'diagnosis', title: 'Diagnoza', optional: true },
-        {
-          field: 'prescription_id',
-          title: 'Recepta',
+        { field: 'phone_number', title: 'Numer telefonu', type: 'phone' },
+        { field: 'address', title: 'Adres zamieszkania' },
+        { field: 'date_of_death', title: 'Data śmierci', type: 'date', optional: true },
+        { field: 'blood_type',
+          title: 'Grupa krwi',
           type: 'select',
-          options: this.selPrescriptions,
+          options: [
+            { value: 'A+', label: 'A+' },
+            { value: 'A-', label: 'A-' },
+            { value: 'B+', label: 'B+' },
+            { value: 'B-', label: 'B-' },
+            { value: 'AB+', label: 'AB+' },
+            { value: 'AB-', label: 'AB-' },
+            { value: '0+', label: '0+' },
+            { value: '0-', label: '0-' }
+          ],
           optional: true
         },
-        { field: 'follow_up_date', title: 'Data następnego badania', type: 'date', optional: true },
       ]
     },
     headerActions() {
       return [
         {
-          label: 'Dodaj wizytę',
-          action: 'addNewVisit',
-          allowedRoles: [2, 3, 4]
+          label: 'Dodaj pacjenta',
+          action: 'addNewPatient',
+          allowedRoles: [3, 4]
         }
       ]
     },
     formModalTitle() {
       if (this.formModalType === 'add') {
-        return 'Dodaj wizytę'
+        return 'Dodaj pacjenta'
       } else if (this.formModalType === 'edit') {
-        return 'Edytuj wizytę'
+        return 'Edytuj pacjenta'
       } else {
-        return 'Zobacz wizytę'
+        return 'Zobacz pacjenta'
       }
     },
   },
   data() {
     return {
-      visits: [],
-      selDoctors: [],
-      selPatients: [],
-      selPrescriptions: [],
+      patients: [],
       loading: false,
       showFormModal: false,
       showDeleteModal: false,
@@ -155,14 +145,13 @@ export default {
   methods: {
     reloadData() {
       this.fetchData()
-      this.fetchMetadata()
     },
     async fetchData() {
       this.loading = true
       try {
         const token = this.$store.state.token
-        const response = await serviceApi.getVisits(token)
-        this.visits = response.data.data
+        const response = await serviceApi.getPatients(token)
+        this.patients = response.data.data
         this.loading = false
       } catch (error) {
         this.loading = false
@@ -173,31 +162,11 @@ export default {
         this.emitError(error)
       }
     },
-    async fetchMetadata() {
+    async getPatient(id) {
       this.loading = true
       try {
         const token = this.$store.state.token
-        const doctorsResponse = await metaApi.getSelDoctors(token)
-        this.selDoctors = doctorsResponse.data.data
-        const patientsResponse = await metaApi.getSelPatients(token)
-        this.selPatients = patientsResponse.data.data
-        const prescriptionsResponse = await metaApi.getSelPrescriptions(token)
-        this.selPrescriptions = prescriptionsResponse.data.data
-        this.loading = false
-      } catch (error) {
-        this.loading = false
-        if (error.response && error.response.status === 401) {
-          this.emitLogout()
-          return
-        }
-        this.emitError(error)
-      }
-    },
-    async getVisit(id) {
-      this.loading = true
-      try {
-        const token = this.$store.state.token
-        const response = await serviceApi.getVisit(token, id)
+        const response = await serviceApi.getPatient(token, id)
         this.formData = response.data.data
         this.loading = false
         this.showFormModal = true
@@ -210,15 +179,15 @@ export default {
         this.emitError(error)
       }
     },
-    async addVisit(visit) {
+    async addPatient(patient) {
       this.loading = true
       try {
         const token = this.$store.state.token
-        await serviceApi.postVisit(token, visit)
+        await serviceApi.postPatient(token, patient)
         this.reloadData()
         this.loading = false
         this.infoModalTitle = 'Sukces'
-        this.infoModalMessage = 'Nowa wizyta została dodana'
+        this.infoModalMessage = 'Nowy pacjent został dodany'
         this.infoModalType = 'info'
         this.showInfoModal = true
       } catch (error) {
@@ -230,14 +199,14 @@ export default {
         this.emitError(error)
       }
     },
-    async editVisit(id, visit) {
+    async editPatient(id, patient) {
       this.loading = true
       try {
         const token = this.$store.state.token
-        await serviceApi.patchVisit(token, id, visit)
+        await serviceApi.patchPatient(token, id, patient)
         this.reloadData()
         this.loading = false
-        this.infoModalMessage = `Wizyta o id ${id} została edytowana`
+        this.infoModalMessage = `Pacjent o id ${id} został edytowany`
         this.showInfoModal = true
       } catch (error) {
         this.loading = false
@@ -248,14 +217,14 @@ export default {
         this.emitError(error)
       }
     },
-    async deleteVisit(id) {
+    async deletePatient(id) {
       this.loading = true
       try {
         const token = this.$store.state.token
-        await serviceApi.deleteVisit(token, id)
+        await serviceApi.deletePatient(token, id)
         this.reloadData()
         this.loading = false
-        this.infoModalMessage = `Wizyta o id ${id} została usunięta`
+        this.infoModalMessage = `Pacjent o id ${id} został usunięty`
         this.showInfoModal = true
       } catch (error) {
         this.loading = false
@@ -266,34 +235,36 @@ export default {
         this.emitError(error)
       }
     },
-    addNewVisit() {
+    addNewPatient() {
       this.showFormModal = true
       this.formModalType = 'add'
     },
     viewRow(row) {
       this.formModalType = 'view'
-      this.getVisit(row.id)
+      this.getPatient(row.id)
     },
     editRow(row) {
       this.formModalType = 'edit'
-      this.getVisit(row.id)
+      this.getPatient(row.id)
     },
     deleteRow(row) {
       this.formData = row
       this.showDeleteModal = true
     },
     submitDelete() {
-      this.deleteVisit(this.formData.id)
+      this.deletePatient(this.formData.id)
+      this.formData = {}
       this.showDeleteModal = false
     },
     cancelDelete() {
+      this.formData = {}
       this.showDeleteModal = false
     },
     submitForm(data) {
       if (this.formModalType === 'add') {
-        this.addVisit(data)
+        this.addPatient(data)
       } else if (this.formModalType === 'edit') {
-        this.editVisit(data.id, data)
+        this.editPatient(data.id, data)
       }
       this.formData = {}
       this.showFormModal = false
@@ -315,7 +286,7 @@ export default {
   mounted() {
     this.reloadData()
     if (this.shortcut) {
-      this.addNewVisit()
+      this.addNewPatient()
       this.emitShortcut()
     }
   }
